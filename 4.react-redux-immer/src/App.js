@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { logIn, logOut } from "./actions/user";
 
-class App {
+class App extends Component {
   onLogIn = () => {
     this.props.dispatchLogIn(
       logIn({
