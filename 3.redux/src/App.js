@@ -13,9 +13,9 @@ function App() {
       })
     );
   }, [dispatch]);
-  const onLogout = useCallback(() => {
+  const onLogOut = useCallback(() => {
     dispatch(logOut());
-  }, []);
+  }, [dispatch]);
   return (
     <div>
       {user.isLoggingIn ? (
@@ -28,7 +28,7 @@ function App() {
       {!user.data ? (
         <button onClick={onLogIn}>로그인</button>
       ) : (
-        <button onClick={onLogout}>로그아웃</button>
+        <button onClick={onLogOut}>로그아웃</button>
       )}
     </div>
   );
