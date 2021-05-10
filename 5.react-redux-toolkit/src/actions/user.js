@@ -1,51 +1,23 @@
-import {
-  LOG_IN_FAILURE,
-  LOG_IN_REQUEST,
-  LOG_IN_SUCCESS,
-  LOG_OUT,
-} from "./type";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const logIn = (data) => {
-  //async action creator - function 리턴
-  return (dispatch, getstate) => {
-    dispatch(logInRequest());
-    try {
-      setTimeout(() => {
-        dispatch(
-          logInSuccess({
-            userId: 1,
-            nickname: "gyuha",
-          })
-        );
-      }, 2000);
-    } catch (e) {
-      dispatch(logInFailure(e));
-    }
-  };
-};
+const delay = (time, value) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(value);
+    }, time);
+  });
 
-const logInRequest = () => {
-  return {
-    type: LOG_IN_REQUEST,
-  };
-};
+export const logIn = createAsyncThunk("user/logIn", async (data, thunkAPI) => {
+  console.log(data);
+  // throw new Error("비밀번호가 틀렸습니다.");
+  const result = await delay(500, {
+    userId: 1,
+    nickname: "gyuha",
+  });
+  return result;
+});
 
-const logInSuccess = (data) => {
-  return {
-    type: LOG_IN_SUCCESS,
-    data,
-  };
-};
+//createAsyncThunk를 사용할때는 async/await 문법에 쓰이는 try catch문을 사용안하는게 좋다. 쓰면 에러에대한 예외처리를 함으로 에러가 발생하지 않는다. 그렇기때문에 thunk가 rejected되지 않고 fulfilled 상태에 머물게 된다.
 
-const logInFailure = (error) => {
-  return {
-    type: LOG_IN_FAILURE,
-    error,
-  };
-};
-
-export const logOut = () => {
-  return {
-    type: LOG_OUT,
-  };
-};
+// isPending, fulfilled, rejected
+// loading, success, failure
